@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx1pgshqxdy56"]
+
+[ext_resource type="Texture2D" uid="uid://emyv7q0j405u" path="res://Assets/Sprites/background.png" id="1_tnbny"]
+[ext_resource type="PackedScene" uid="uid://c3milmb5jlp7n" path="res://Scenes/island.tscn" id="2_2wvcj"]
+
+[node name="Board" type="Node2D"]
+metadata/_edit_lock_ = true
+
+[node name="Background" type="Sprite2D" parent="."]
+scale = Vector2(0.78125, 0.78125006)
+texture = ExtResource("1_tnbny")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Islands" type="Node2D" parent="."]
+position = Vector2(100, 89)
+metadata/_edit_lock_ = true
+
+[node name="0" parent="Islands" instance=ExtResource("2_2wvcj")]
+position = Vector2(144, 139)
+metadata/_edit_lock_ = true
+
+[node name="1" parent="Islands" instance=ExtResource("2_2wvcj")]
+position = Vector2(454, 139)
+metadata/_edit_lock_ = true
+
+[node name="2" parent="Islands" instance=ExtResource("2_2wvcj")]
+position = Vector2(144, 442)
+metadata/_edit_lock_ = true
+
+[node name="3" parent="Islands" instance=ExtResource("2_2wvcj")]
+position = Vector2(454, 442)
+metadata/_edit_lock_ = true

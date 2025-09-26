@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://drq7rj0sy6v35"]
+
+[ext_resource type="Texture2D" uid="uid://cs3521o13qicg" path="res://Assets/Sprites/black_cell.png" id="1_gilj4"]
+[ext_resource type="Texture2D" uid="uid://bfuhoxrimfdad" path="res://Assets/Sprites/empty_cell.png" id="2_imdwo"]
+[ext_resource type="Texture2D" uid="uid://cljvly28xop5l" path="res://Assets/Sprites/white_cell.png" id="3_7tk7m"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r6d3g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gilj4")
+}],
+"loop": true,
+"name": &"black",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_imdwo")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7tk7m")
+}],
+"loop": true,
+"name": &"white",
+"speed": 5.0
+}]
+
+[node name="Cell" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_r6d3g")
+animation = &"empty"
+metadata/_edit_lock_ = true
