@@ -1,24 +1,22 @@
 extends Control
 
 @onready var main_menu: PanelContainer = $CanvasLayer/MainMenu
-@onready var adress: LineEdit = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Address
+@onready var address_entry: LineEdit = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressEntry
 
 
 const PORT = 1771
 var enet_peer = ENetMultiplayerPeer.new()
 
-func _on_host_pressed() -> void:
-	
+func _on_host_button_pressed() -> void:
 	main_menu.hide()
 	enet_peer.create_server(PORT)
 	multiplayer.multiplayer_peer = enet_peer
 	
 	upnp_setup()
 
-func _on_join_pressed() -> void:
-	
+func _on_join_button_pressed() -> void:
 	main_menu.hide()
-	enet_peer.create_client("127.0.0.1",PORT)
+	enet_peer.create_client(address_entry.text, PORT)
 	multiplayer.multiplayer_peer = enet_peer
 
 func upnp_setup():
