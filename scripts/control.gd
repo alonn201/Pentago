@@ -35,4 +35,8 @@ func upnp_setup():
 	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
-	print("Success! Join Address:" % upnp.query_external_address())
+	var external_ip := upnp.query_external_address()
+	if external_ip == "" or external_ip == null:
+		print("UPnP mapped port but external IP could not be determined.")
+	else:
+		print("Success! Join address: %s:%d" % [external_ip, PORT])
