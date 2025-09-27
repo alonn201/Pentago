@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3milmb5jlp7n"]
+[gd_scene load_steps=5 format=3 uid="uid://c3milmb5jlp7n"]
 
+[ext_resource type="Script" uid="uid://bqug7uii5jg1j" path="res://Scripts/island.gd" id="1_30k4x"]
 [ext_resource type="Texture2D" uid="uid://c205qsuosycyu" path="res://Assets/Sprites/island.png" id="1_e7j4b"]
 [ext_resource type="PackedScene" uid="uid://drq7rj0sy6v35" path="res://Scenes/cell.tscn" id="2_m582m"]
+[ext_resource type="PackedScene" uid="uid://duayxdia7vtxy" path="res://Scenes/turn_direction.tscn" id="3_81x60"]
 
 [node name="Island" type="Node2D"]
 scale = Vector2(0.75, 0.75)
+script = ExtResource("1_30k4x")
 metadata/_edit_lock_ = true
 
 [node name="Island" type="Sprite2D" parent="."]
@@ -49,3 +52,29 @@ scale = Vector2(0.9528302, 1)
 [node name="8" parent="Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, 109)
 scale = Vector2(0.9528302, 1)
+
+[node name="TurnDirections" type="Node2D" parent="."]
+
+[node name="TopLeft" parent="TurnDirections" instance=ExtResource("3_81x60")]
+visible = false
+position = Vector2(-196, -192)
+
+[node name="TopRight" parent="TurnDirections" instance=ExtResource("3_81x60")]
+visible = false
+position = Vector2(196.00002, -190.66666)
+rotation = 1.5707964
+
+[node name="BottomRight" parent="TurnDirections" instance=ExtResource("3_81x60")]
+visible = false
+position = Vector2(196, 190.66669)
+rotation = 3.1415927
+
+[node name="BottomLeft" parent="TurnDirections" instance=ExtResource("3_81x60")]
+visible = false
+position = Vector2(-197.33333, 189.33334)
+rotation = 4.712389
+
+[connection signal="turn_direction" from="TurnDirections/TopLeft" to="." method="_on_top_left_turn_direction"]
+[connection signal="turn_direction" from="TurnDirections/TopRight" to="." method="_on_top_right_turn_direction"]
+[connection signal="turn_direction" from="TurnDirections/BottomRight" to="." method="_on_bottom_right_turn_direction"]
+[connection signal="turn_direction" from="TurnDirections/BottomLeft" to="." method="_on_bottom_left_turn_direction"]

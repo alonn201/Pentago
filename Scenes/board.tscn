@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bx1pgshqxdy56"]
+[gd_scene load_steps=4 format=3 uid="uid://bx1pgshqxdy56"]
 
 [ext_resource type="Texture2D" uid="uid://emyv7q0j405u" path="res://Assets/Sprites/background.png" id="1_tnbny"]
+[ext_resource type="Script" uid="uid://cenoa85mvmguk" path="res://Scripts/board.gd" id="1_uh3b8"]
 [ext_resource type="PackedScene" uid="uid://c3milmb5jlp7n" path="res://Scenes/island.tscn" id="2_2wvcj"]
 
 [node name="Board" type="Node2D"]
+script = ExtResource("1_uh3b8")
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -16,18 +18,23 @@ metadata/_edit_lock_ = true
 position = Vector2(100, 89)
 metadata/_edit_lock_ = true
 
-[node name="0" parent="Islands" instance=ExtResource("2_2wvcj")]
+[node name="TopLeft" parent="Islands" instance=ExtResource("2_2wvcj")]
 position = Vector2(144, 139)
-metadata/_edit_lock_ = true
+show_top_left = true
 
-[node name="1" parent="Islands" instance=ExtResource("2_2wvcj")]
+[node name="TopRight" parent="Islands" instance=ExtResource("2_2wvcj")]
 position = Vector2(454, 139)
-metadata/_edit_lock_ = true
+show_top_right = true
 
-[node name="2" parent="Islands" instance=ExtResource("2_2wvcj")]
+[node name="BottomLeft" parent="Islands" instance=ExtResource("2_2wvcj")]
 position = Vector2(144, 442)
-metadata/_edit_lock_ = true
+show_bottom_left = true
 
-[node name="3" parent="Islands" instance=ExtResource("2_2wvcj")]
+[node name="BottomRight" parent="Islands" instance=ExtResource("2_2wvcj")]
 position = Vector2(454, 442)
-metadata/_edit_lock_ = true
+show_bottom_right = true
+
+[connection signal="turn_direction" from="Islands/TopLeft" to="." method="_on_top_left_turn_direction"]
+[connection signal="turn_direction" from="Islands/TopRight" to="." method="_on_top_right_turn_direction"]
+[connection signal="turn_direction" from="Islands/BottomLeft" to="." method="_on_bottom_left_turn_direction"]
+[connection signal="turn_direction" from="Islands/BottomRight" to="." method="_on_bottom_right_turn_direction"]

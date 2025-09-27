@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://duayxdia7vtxy"]
+
+[ext_resource type="Script" uid="uid://c5xata2cd4aqt" path="res://Scripts/turn_direction.gd" id="1_kffai"]
+[ext_resource type="PackedScene" uid="uid://c0kr5cgox4bdn" path="res://Scenes/turn_arrow.tscn" id="1_w417l"]
+
+[node name="TurnDirection" type="Node2D"]
+script = ExtResource("1_kffai")
+
+[node name="CounterClockWiseArrow" parent="." instance=ExtResource("1_w417l")]
+position = Vector2(-14, 20)
+rotation = 1.5707964
+scale = Vector2(1, -1)
+
+[node name="ClockWiseArrow" parent="." instance=ExtResource("1_w417l")]
+position = Vector2(19, -13)
