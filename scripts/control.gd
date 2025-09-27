@@ -1,23 +1,36 @@
 extends Control
 
-@onready var main_menu: PanelContainer = $CanvasLayer/MainMenu
-@onready var address_entry: LineEdit = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressEntry
-
+@onready var main_menu: PanelContainer = $MainMenu
+@onready var address_entry: LineEdit = $MainMenu/MarginContainer/VBoxContainer/AddressEntry
+@onready var address_copy: Label = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/AddressCopy
+@onready var error_msg: Label = $MainMenu/MarginContainer/VBoxContainer/ErrorMsg
 
 const PORT = 1771
 var enet_peer = ENetMultiplayerPeer.new()
 
 func _on_host_button_pressed() -> void:
-	main_menu.hide()
-	enet_peer.create_server(PORT)
+	var result := enet_peer.create_server(PORT)
+	if result != OK:
+		error_msg.text = "Failed to host"
+		await get_tree().create_timer(1.0).timeout
+		error_msg.text = ""
+	
 	multiplayer.multiplayer_peer = enet_peer
 	
 	upnp_setup()
+	
+	multiplayer.peer_connected.connect(_on_peer_connected)
 
 func _on_join_button_pressed() -> void:
-	main_menu.hide()
-	enet_peer.create_client(address_entry.text, PORT)
+	var result := enet_peer.create_client(address_entry.text, PORT)
+	if result != OK:
+		error_msg.text = "Failed to connect"
+		await get_tree().create_timer(1.0).timeout
+		error_msg.text = ""
+	
 	multiplayer.multiplayer_peer = enet_peer
+	
+	multiplayer.peer_connected.connect(_on_peer_connected)
 
 func upnp_setup():
 	var upnp = UPNP.new()
@@ -37,4 +50,16 @@ func upnp_setup():
 	if external_ip == "" or external_ip == null:
 		print("UPnP mapped port but external IP could not be determined.")
 	else:
-		print("Success! Join address: %s:%d" % [external_ip, PORT])
+		address_copy.text = str(external_ip)
+
+func _on_copy_address_pressed() -> void:
+	var ip = address_copy.text
+	if address_copy and address_copy.text != "":
+		DisplayServer.clipboard_set(address_copy.text)
+		address_copy.text = "Copied to clipboard"
+		await get_tree().create_timer(1.0).timeout
+		address_copy.text = str(ip)
+
+func _on_peer_connected(id: int) -> void:
+	print("Peer connected: %d" % id)
+	main_menu.hide()
