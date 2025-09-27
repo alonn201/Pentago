@@ -7,6 +7,7 @@ signal upnp_failed(reason : String)
 
 const PORT := 1771
 var enet_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+var upnp_thread: Thread
 
 func start_server(port: int = PORT) -> bool:
 	var res := enet_peer.create_server(port)
@@ -18,11 +19,12 @@ func start_server(port: int = PORT) -> bool:
 	# Use the stable getter to access the MultiplayerAPI
 	var mpapi := get_tree().get_multiplayer()
 	mpapi.multiplayer_peer = enet_peer
-
 	# Connect to peer_connected once
 	mpapi.peer_connected.connect(_on_peer_connected)
 
-	upnp_setup()
+	upnp_thread = Thread.new()
+	upnp_thread.start(Callable(self, "_threaded_upnp_setup"))
+	
 	return true
 
 func start_client(host: String, port: int = PORT) -> bool:
@@ -35,7 +37,6 @@ func start_client(host: String, port: int = PORT) -> bool:
 	get_tree().set_multiplayer(SceneMultiplayer.new())
 	var mpapi := get_tree().get_multiplayer()
 	mpapi.multiplayer_peer = enet_peer
-
 	mpapi.peer_connected.connect(_on_peer_connected)
 
 	return true
@@ -43,6 +44,9 @@ func start_client(host: String, port: int = PORT) -> bool:
 func _on_peer_connected(id: int) -> void:
 	emit_signal("connected", id)
 
+
+func _threaded_upnp_setup() -> void:
+	upnp_setup()
 
 # returns external IP string, or null if failure (also emits upnp_failed on error)
 func upnp_setup(port: int = PORT) -> void:
@@ -65,4 +69,4 @@ func upnp_setup(port: int = PORT) -> void:
 		if gateway.has_method("query_external_ip"):
 			external_ip = gateway.query_external_ip()
 			
-	emit_signal("upnp_done", external_ip)
+	call_deferred("emit_signal", "upnp_done", external_ip)
