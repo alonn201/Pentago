@@ -73,8 +73,3 @@ rotation = 3.1415927
 visible = false
 position = Vector2(-197.33333, 189.33334)
 rotation = 4.712389
-
-[connection signal="turn_direction" from="TurnDirections/TopLeft" to="." method="_on_top_left_turn_direction"]
-[connection signal="turn_direction" from="TurnDirections/TopRight" to="." method="_on_top_right_turn_direction"]
-[connection signal="turn_direction" from="TurnDirections/BottomRight" to="." method="_on_bottom_right_turn_direction"]
-[connection signal="turn_direction" from="TurnDirections/BottomLeft" to="." method="_on_bottom_left_turn_direction"]

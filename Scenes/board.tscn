@@ -33,8 +33,3 @@ show_bottom_left = true
 [node name="BottomRight" parent="Islands" instance=ExtResource("2_2wvcj")]
 position = Vector2(454, 442)
 show_bottom_right = true
-
-[connection signal="turn_direction" from="Islands/TopLeft" to="." method="_on_top_left_turn_direction"]
-[connection signal="turn_direction" from="Islands/TopRight" to="." method="_on_top_right_turn_direction"]
-[connection signal="turn_direction" from="Islands/BottomLeft" to="." method="_on_bottom_left_turn_direction"]
-[connection signal="turn_direction" from="Islands/BottomRight" to="." method="_on_bottom_right_turn_direction"]

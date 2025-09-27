@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0kr5cgox4bdn"]
 
-[ext_resource type="Script" uid="uid://dwwuul83gnmlh" path="res://Scenes/turn_arrow.gd" id="1_cryun"]
+[ext_resource type="Script" uid="uid://dwwuul83gnmlh" path="res://Scripts/turn_arrow.gd" id="1_cryun"]
 [ext_resource type="Texture2D" uid="uid://dia2kwj8i3qny" path="res://Assets/Sprites/turn_arrow.png" id="1_wwy2v"]
 
 [node name="TurnArrow" type="Node2D"]

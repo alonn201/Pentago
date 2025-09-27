@@ -1,17 +1,12 @@
 extends Node2D
 
+const Globals = preload("res://Scripts/globals.gd")
 
-func _on_top_left_turn_direction(direction: int) -> void:
-	self._handle_island_turn_direction(0, direction)
 
-func _on_top_right_turn_direction(direction: int) -> void:
-	self._handle_island_turn_direction(1, direction)
+func _ready():
+	for i in range($Islands.get_child_count()):
+		var island = $Islands.get_child(i)
+		island.turn_direction.connect(func(direction): _handle_island_turn_direction(i, direction))
 
-func _on_bottom_left_turn_direction(direction: int) -> void:
-	self._handle_island_turn_direction(2, direction)
-
-func _on_bottom_right_turn_direction(direction: int) -> void:
-	self._handle_island_turn_direction(3, direction)
-
-func _handle_island_turn_direction(index: int, direction: int) -> void:
+func _handle_island_turn_direction(index: int, direction: Globals.TurnDirection) -> void:
 	print("island=", index, "direction=", direction)

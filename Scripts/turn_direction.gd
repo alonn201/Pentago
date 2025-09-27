@@ -1,7 +1,13 @@
 extends Node2D
 
-signal turn_direction(direction: int)
+const Globals = preload("res://Scripts/globals.gd")
+
+signal turn_direction(direction: Globals.TurnDirection)
 
 func _ready():
-	$ClockWiseArrow.clicked.connect(func(): emit_signal("turn_direction", 1))
-	$CounterClockWiseArrow.clicked.connect(func(): emit_signal("turn_direction", -1))
+	$ClockWiseArrow.clicked.connect(func():
+		emit_signal("turn_direction", Globals.TurnDirection.CLOCKWISE)
+	)
+	$CounterClockWiseArrow.clicked.connect(func():
+		emit_signal("turn_direction", Globals.TurnDirection.COUNTERCLOCKWISE)
+	)
