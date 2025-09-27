@@ -22,9 +22,14 @@ func _ready() -> void:
 func _handle_island_cell_clicked(island_index: int, cell_index: int) -> void:
 	var island: Island = islands[island_index]
 	var cell: Cell = island.cells[cell_index]
-	cell.type = [Globals.CellType.WHITE, Globals.CellType.BLACK][x]
-	x = (x + 1) % 2
-	print("island_index=", island_index, "\tcell_index=", cell_index)
+	if cell.type != Globals.CellType.EMPTY:
+		cell.type = Globals.CellType.EMPTY
+	else:
+		cell.type = [Globals.CellType.WHITE, Globals.CellType.BLACK][x]
+		x = (x + 1) % 2
+	#print("island_index=", island_index, "\tcell_index=", cell_index)
 
 func _handle_island_turn_direction(island_index: int, direction: Globals.TurnDirection) -> void:
-	print("island_index=", island_index, "\tdirection=", direction)
+	var island: Island = islands[island_index]
+	island.turn(direction)
+	#print("island_index=", island_index, "\tdirection=", direction)
