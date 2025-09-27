@@ -63,3 +63,6 @@ func _on_copy_address_pressed() -> void:
 func _on_peer_connected(id: int) -> void:
 	print("Peer connected: %d" % id)
 	main_menu.hide()
+	
+	await get_tree().create_timer(0.25).timeout
+	get_tree().change_scene_to_file("res://scenes/board.tscn")
