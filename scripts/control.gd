@@ -18,7 +18,6 @@ func _on_upnp_done(external_ip: String) -> void:
 		address_copy.text = str(external_ip)
 
 func _on_upnp_failed(reason: String) -> void:
-	# show a short message or use error_msg label
 	error_msg.text = "UPnP: " + reason
 	await get_tree().create_timer(2.0).timeout
 	error_msg.text = ""
@@ -48,8 +47,6 @@ func _on_copy_address_pressed() -> void:
 
 func _on_network_connected(id: int) -> void:
 	print("Network: connected id=", id)
-	main_menu.hide()
-	
 	await get_tree().create_timer(0.25).timeout
 	get_tree().change_scene_to_file("res://scenes/pentago.tscn")
 
