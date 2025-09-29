@@ -28,6 +28,8 @@ func _on_host_button_pressed() -> void:
 		error_msg.text = "Failed to host"
 		await get_tree().create_timer(1.0).timeout
 		error_msg.text = ""
+	
+	get_tree().change_scene_to_file("res://scenes/waiting_screen.tscn")
 
 func _on_join_button_pressed() -> void:
 	var host := address_entry.text.strip_edges()
