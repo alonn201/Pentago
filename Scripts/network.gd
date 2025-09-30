@@ -4,6 +4,7 @@ signal connected(peer_id : int)
 signal connection_failed(reason : String)
 signal upnp_done(external_ip : String)
 signal upnp_failed(reason : String)
+signal start_game()
 
 const PORT := 1771
 var enet_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
@@ -70,3 +71,12 @@ func upnp_setup(port: int = PORT) -> void:
 			external_ip = gateway.query_external_ip()
 			
 	call_deferred("emit_signal", "upnp_done", external_ip)
+
+func request_start_game() -> void:
+	if not multiplayer.is_server():
+		return                                # safety: only host decides
+	rpc_change_scene_to_game()
+
+@rpc("any_peer", "call_local", "reliable")
+func rpc_change_scene_to_game() -> void:
+	start_game.emit()

@@ -11,6 +11,7 @@ func _ready() -> void:
 	Network.upnp_done.connect(_on_upnp_done)
 	Network.upnp_failed.connect(_on_upnp_failed)
 	Network.connected.connect(_on_network_connected)
+	Network.start_game.connect(_on_start_game)
 	
 	var counter := 0
 	while(waiting):
@@ -35,5 +36,9 @@ func _on_copy_address_pressed() -> void:
 func _on_network_connected(id: int) -> void:
 	print("Network: connected id=", id)
 	waiting = false
-	await get_tree().create_timer(0.25).timeout
+	if multiplayer.is_server():
+		await get_tree().create_timer(0.25).timeout
+		Network.rpc_change_scene_to_game()
+
+func _on_start_game() -> void:
 	get_tree().change_scene_to_file("res://scenes/pentago.tscn")
