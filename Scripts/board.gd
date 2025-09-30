@@ -3,6 +3,9 @@ class_name Board
 
 const Globals = preload("res://Scripts/globals.gd")
 
+signal cell_click(island_index: int, cell_index: int)
+signal island_turn_direction(island_index: int, direction: Globals.TurnDirection)
+
 @onready var islands = $Islands.get_children()
 
 var x := 0
@@ -20,6 +23,8 @@ func _ready() -> void:
 		)
 
 func _handle_island_cell_clicked(island_index: int, cell_index: int) -> void:
+	emit_signal("cell_click", island_index, cell_index)
+	return
 	var island: Island = islands[island_index]
 	var cell: Cell = island.cells[cell_index]
 	if cell.type != Globals.CellType.EMPTY:
@@ -33,6 +38,8 @@ func _handle_island_cell_clicked(island_index: int, cell_index: int) -> void:
 	print(check_for_winners())
 	
 func _handle_island_turn_direction(island_index: int, direction: Globals.TurnDirection) -> void:
+	emit_signal("island_turn_direction", island_index, direction)
+	return
 	var island: Island = islands[island_index]
 	island.turn(direction)
 	#print("island_index=", island_index, "\tdirection=", direction)
