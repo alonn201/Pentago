@@ -13,6 +13,10 @@ signal turn_direction(direction: Globals.TurnDirection)
 
 @onready var cells = $Cells.get_children()
 
+var cells_type: Array:
+	get:
+		return cells.map(func(c): return c.type)
+
 func _ready() -> void:
 	$TurnDirections/TopLeft.visible = show_top_left
 	$TurnDirections/TopRight.visible = show_top_right
