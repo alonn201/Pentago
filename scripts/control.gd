@@ -2,25 +2,11 @@ extends Control
 
 @onready var main_menu: PanelContainer = $MainMenu
 @onready var address_entry: LineEdit = $MainMenu/MarginContainer/VBoxContainer/AddressEntry
-@onready var address_copy: Label = $MainMenu/MarginContainer/VBoxContainer/HBoxContainer/AddressCopy
 @onready var error_msg: Label = $MainMenu/MarginContainer/VBoxContainer/ErrorMsg
 
 func _ready() -> void:
-	Network.upnp_done.connect(_on_upnp_done)
-	Network.upnp_failed.connect(_on_upnp_failed)
 	Network.connected.connect(_on_network_connected)
 	Network.connection_failed.connect(_on_connection_failed)
-
-func _on_upnp_done(external_ip: String) -> void:
-	if external_ip == "" or external_ip == null:
-		address_copy.text = "UPnP mapped port (IP not reported)"
-	else:
-		address_copy.text = str(external_ip)
-
-func _on_upnp_failed(reason: String) -> void:
-	error_msg.text = "UPnP: " + reason
-	await get_tree().create_timer(2.0).timeout
-	error_msg.text = ""
 
 func _on_host_button_pressed() -> void:
 	var ok := Network.start_server()
@@ -38,14 +24,6 @@ func _on_join_button_pressed() -> void:
 		error_msg.text = "Failed to connect"
 		await get_tree().create_timer(1.0).timeout
 		error_msg.text = ""
-
-func _on_copy_address_pressed() -> void:
-	var ip = address_copy.text
-	if address_copy and address_copy.text != "":
-		DisplayServer.clipboard_set(address_copy.text)
-		address_copy.text = "Copied to clipboard"
-		await get_tree().create_timer(1.0).timeout
-		address_copy.text = str(ip)
 
 func _on_network_connected(id: int) -> void:
 	print("Network: connected id=", id)
