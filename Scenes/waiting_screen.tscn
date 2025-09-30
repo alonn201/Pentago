@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://7uqr4pgj1wo3"]
 
-[ext_resource type="Script" uid="uid://bfpdt573f3vmq" path="res://scripts/waiting_screen.gd" id="1_pyka7"]
+[ext_resource type="Script" uid="uid://bfpdt573f3vmq" path="res://Scripts/waiting_screen.gd" id="1_pyka7"]
 
 [node name="WaitingScreen" type="Control"]
 layout_mode = 3

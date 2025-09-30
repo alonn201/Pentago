@@ -41,4 +41,4 @@ func _on_network_connected(id: int) -> void:
 		Network.rpc_change_scene_to_game()
 
 func _on_start_game() -> void:
-	get_tree().change_scene_to_file("res://scenes/pentago.tscn")
+	get_tree().change_scene_to_file("res://Scenes/pentago.tscn")
