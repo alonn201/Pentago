@@ -37,9 +37,12 @@ func _handle_board_click(island_index: int, cell_index: int) -> void:
 	if (clicked_cell.type != Globals.CellType.EMPTY):
 		return
 	
-	var placed_type = [Globals.CellType.BLACK, Globals.CellType.WHITE][int(is_multiplayer_authority())]
+	var turns = [Globals.CellType.BLACK, Globals.CellType.WHITE]
+	var current_turn_color = int(is_multiplayer_authority())
+	var placed_type = turns[current_turn_color]
 	_set_cell(island_index, cell_index, placed_type)
 	was_previous_turn = true
+	_set_player_turn(turns[(current_turn_color + 1) % 2])
 
 func _set_cell(island_index: int, cell_index: int, cell_type: Globals.CellType) -> void:
 	board.islands[island_index].cells[cell_index].type = cell_type
