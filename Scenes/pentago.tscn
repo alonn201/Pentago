@@ -47,4 +47,14 @@ layout_mode = 2
 size_flags_vertical = 10
 text = "RESTART"
 
+[node name="BackButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "EXIT"
+
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

@@ -112,6 +112,13 @@ func _handle_disconnect(id: int) -> void:
 	_set_winner([Globals.CellType.BLACK, Globals.CellType.WHITE][int(is_multiplayer_authority())], true)
 	print("disconnected ID=", id)
 
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
+
+func _on_back_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/control.tscn")
+	Network.close()
+
 @rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
 	_update_player_turn(turn)
