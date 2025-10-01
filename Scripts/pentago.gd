@@ -11,6 +11,7 @@ enum TurnState { OTHER, CELLS, TURN, WINNER }
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 @onready var winner_label: Label = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/WinnerLabel
 @onready var restart_button: Button = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/RestartButton
+@onready var turn_label: Label = $TurnLabel
 
 
 var player_turn := Globals.CellType.EMPTY
@@ -35,6 +36,7 @@ func _ready() -> void:
 func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
 	cell_turn.type = player_turn
+	turn_label.text = ("Your turn" if player_turn == this_cell_type else "Other's turn")
 	
 	# only master checks game state for winners
 	if (is_multiplayer_authority()):
