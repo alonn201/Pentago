@@ -27,6 +27,7 @@ func _check_cells_streak(cell_types: Array) -> Globals.CellType:
 	var previous_cell_type := Globals.CellType.EMPTY
 	for cell_type in cell_types:
 		if cell_type == Globals.CellType.EMPTY:
+			count = 0
 			continue
 			
 		if cell_type == previous_cell_type:
