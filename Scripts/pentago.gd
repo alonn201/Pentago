@@ -5,8 +5,8 @@ const Globals = preload("res://Scripts/globals.gd")
 
 enum TurnState { OTHER, CELLS, TURN }
 
-
 @onready var board = $Board
+@onready var cell_turn: Cell = $CellTurn
 
 var player_turn := Globals.CellType.EMPTY
 var turn_state := TurnState.CELLS
@@ -18,8 +18,12 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		_handle_player_turn_assignment()
 
-func _set_player_turn(turn: Globals.CellType) -> void:
+func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
+	cell_turn.type = player_turn
+
+func _set_player_turn(turn: Globals.CellType) -> void:
+	_update_player_turn(turn)
 	rpc("rpc_sync_player_turn", player_turn)
 	print("setting player turn: ", Globals.CellType.keys()[Globals.CellType.values().find(player_turn)])
 
@@ -71,7 +75,7 @@ func _turn_island(island_index: int, direction: Globals.TurnDirection) -> void:
 
 @rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
-	player_turn = turn
+	_update_player_turn(turn)
 	print("setting player turn: ", Globals.CellType.keys()[Globals.CellType.values().find(player_turn)])
 
 @rpc("any_peer")

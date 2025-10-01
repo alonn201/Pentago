@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://ceou3yg24ycvq"]
+[gd_scene load_steps=4 format=3 uid="uid://ceou3yg24ycvq"]
 
 [ext_resource type="Script" uid="uid://dmi4nor4jnpmv" path="res://Scripts/pentago.gd" id="1_fqlbw"]
 [ext_resource type="PackedScene" uid="uid://bx1pgshqxdy56" path="res://Scenes/board.tscn" id="1_roxdv"]
+[ext_resource type="PackedScene" uid="uid://drq7rj0sy6v35" path="res://Scenes/cell.tscn" id="3_bdu22"]
 
 [node name="Pentago" type="Node2D"]
 script = ExtResource("1_fqlbw")
 
 [node name="Board" parent="." instance=ExtResource("1_roxdv")]
+
+[node name="CellTurn" parent="." instance=ExtResource("3_bdu22")]
+position = Vector2(400, 740)
