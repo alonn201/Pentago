@@ -42,3 +42,7 @@ func _on_network_connected(id: int) -> void:
 
 func _on_start_game() -> void:
 	get_tree().change_scene_to_file("res://Scenes/pentago.tscn")
+
+func _on_back_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/control.tscn")
+	Network.close()

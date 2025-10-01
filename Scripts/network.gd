@@ -11,6 +11,7 @@ var enet_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var upnp_thread: Thread
 
 func start_server(port: int = PORT) -> bool:
+	enet_peer = ENetMultiplayerPeer.new()
 	var res := enet_peer.create_server(port)
 	if res != OK:
 		emit_signal("connection_failed", "create_server failed: %s" % res)
@@ -76,6 +77,13 @@ func request_start_game() -> void:
 	if not multiplayer.is_server():
 		return                                # safety: only host decides
 	rpc_change_scene_to_game()
+
+func close() -> void:
+	if enet_peer:
+		enet_peer.close()
+		enet_peer = null
+	if upnp_thread and upnp_thread.is_alive():
+		upnp_thread.wait_to_finish()
 
 @rpc("any_peer", "call_local", "reliable")
 func rpc_change_scene_to_game() -> void:
