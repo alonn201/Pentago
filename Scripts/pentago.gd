@@ -3,13 +3,17 @@ class_name Pentago
 
 const Globals = preload("res://Scripts/globals.gd")
 
+enum TurnState { OTHER, CELLS, TURN }
+
+
 @onready var board = $Board
 
 var player_turn := Globals.CellType.EMPTY
-var was_previous_turn := false
+var turn_state := TurnState.CELLS
 
 func _ready() -> void:
 	board.cell_click.connect(_handle_board_click)
+	board.island_turn_direction.connect(_handle_island_turn)
 	
 	if is_multiplayer_authority():
 		_handle_player_turn_assignment()
@@ -26,9 +30,8 @@ func is_player_turn() -> bool:
 	return (is_multiplayer_authority() and player_turn == Globals.CellType.WHITE) \
 	or (not is_multiplayer_authority() and player_turn == Globals.CellType.BLACK)
 
-
 func _handle_board_click(island_index: int, cell_index: int) -> void:
-	if (not is_player_turn() or was_previous_turn):
+	if (not is_player_turn() or turn_state != TurnState.CELLS):
 		return
 	
 	var clicked_island: Island = board.islands[island_index]
@@ -41,13 +44,30 @@ func _handle_board_click(island_index: int, cell_index: int) -> void:
 	var current_turn_color = int(is_multiplayer_authority())
 	var placed_type = turns[current_turn_color]
 	_set_cell(island_index, cell_index, placed_type)
-	was_previous_turn = true
-	_set_player_turn(turns[(current_turn_color + 1) % 2])
+	turn_state = TurnState.TURN
 
 func _set_cell(island_index: int, cell_index: int, cell_type: Globals.CellType) -> void:
 	board.islands[island_index].cells[cell_index].type = cell_type
 	rpc("rpc_sync_cell", island_index, cell_index, cell_type)
 	print("setting cell", "island_index=", island_index, "\t", "cell_index=", cell_index, "\t", "cell_type=", cell_type)
+
+func _handle_island_turn(island_index: int, direction: Globals.TurnDirection) -> void:
+	if (not is_player_turn() or turn_state != TurnState.TURN):
+		return
+
+	_turn_island(island_index, direction)
+	turn_state = TurnState.OTHER
+	
+	var turns = [Globals.CellType.BLACK, Globals.CellType.WHITE]
+	var next_turn = turns[(int(is_multiplayer_authority()) + 1) % 2]
+	_set_player_turn(next_turn)
+
+func _turn_island(island_index: int, direction: Globals.TurnDirection) -> void:
+	var island: Island = board.islands[island_index]
+	island.turn(direction)
+	rpc("rpc_sync_island_turn", island_index, direction)
+	print("turning island", "island_index=", island_index, "\t", "direction=", direction)
+
 
 @rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
@@ -57,5 +77,11 @@ func rpc_sync_player_turn(turn: Globals.CellType) -> void:
 @rpc("any_peer")
 func rpc_sync_cell(island_index: int, cell_index: int, cell_type: Globals.CellType) -> void:
 	board.islands[island_index].cells[cell_index].type = cell_type
-	was_previous_turn = false
+	turn_state = TurnState.CELLS
 	print("setting cell", "island_index=", island_index, "\t", "cell_index=", cell_index, "\t", "cell_type=", cell_type)
+
+@rpc("any_peer")
+func rpc_sync_island_turn(island_index: int, direction: Globals.TurnDirection) -> void:
+	var island: Island = board.islands[island_index]
+	island.turn(direction)
+	print("turning island", "island_index=", island_index, "\t", "direction=", direction)
