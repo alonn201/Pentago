@@ -42,9 +42,9 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
 uppercase = true
 
-[node name="Restart" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RestartButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 text = "RESTART"
 
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

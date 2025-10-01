@@ -7,24 +7,26 @@ enum TurnState { OTHER, CELLS, TURN, WINNER }
 
 @onready var board = $Board
 @onready var cell_turn: Cell = $CellTurn
-@onready var winner_label: Label = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/WinnerLabel
-@onready var restart: Button = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Restart
+
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
+@onready var winner_label: Label = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/WinnerLabel
+@onready var restart_button: Button = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/RestartButton
+
 
 var player_turn := Globals.CellType.EMPTY
 var turn_state := TurnState.CELLS
 
 func _ready() -> void:
-	board.cell_click.connect(_handle_board_click)
+	board.cell_click.connect(_handle_cell_click)
 	board.island_turn_direction.connect(_handle_island_turn)
 	
 	canvas_layer.hide()
+	if (not is_multiplayer_authority()):
+		restart_button.hide()
 	
 	if is_multiplayer_authority():
 		_handle_player_turn_assignment()
 		
-	#_set_winner(Globals.CellType.WHITE)
-
 func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
 	cell_turn.type = player_turn
@@ -44,7 +46,7 @@ func is_player_turn() -> bool:
 	return (is_multiplayer_authority() and player_turn == Globals.CellType.WHITE) \
 	or (not is_multiplayer_authority() and player_turn == Globals.CellType.BLACK)
 
-func _handle_board_click(island_index: int, cell_index: int) -> void:
+func _handle_cell_click(island_index: int, cell_index: int) -> void:
 	if (not is_player_turn() or turn_state != TurnState.CELLS):
 		return
 	
@@ -93,9 +95,13 @@ func _set_winner(winner: Globals.CellType) -> void:
 	turn_state = TurnState.WINNER
 	canvas_layer.show()
 	winner_label.text = str(Globals.CellType.keys()[Globals.CellType.values().find(winner)]) + " won the game!"
-	
-func _on_restart_pressed() -> void:
-	board.clear_cells()
+
+func _restart() -> void:
+	get_tree().reload_current_scene()
+
+func _on_restart_button_pressed() -> void:
+	rpc("rpc_sync_restart")
+	_restart()
 
 @rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
@@ -117,3 +123,7 @@ func rpc_sync_island_turn(island_index: int, direction: Globals.TurnDirection) -
 @rpc("any_peer")
 func rpc_sync_winner(winner: Globals.CellType) -> void:
 	_set_winner(winner)
+	
+@rpc("any_peer")
+func rpc_sync_restart() -> void:
+	_restart()
