@@ -7,6 +7,9 @@ enum TurnState { OTHER, CELLS, TURN, WINNER }
 
 @onready var board = $Board
 @onready var cell_turn: Cell = $CellTurn
+@onready var winner_label: Label = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/WinnerLabel
+@onready var restart: Button = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Restart
+@onready var canvas_layer: CanvasLayer = $CanvasLayer
 
 var player_turn := Globals.CellType.EMPTY
 var turn_state := TurnState.CELLS
@@ -15,8 +18,12 @@ func _ready() -> void:
 	board.cell_click.connect(_handle_board_click)
 	board.island_turn_direction.connect(_handle_island_turn)
 	
+	canvas_layer.hide()
+	
 	if is_multiplayer_authority():
 		_handle_player_turn_assignment()
+		
+	#_set_winner(Globals.CellType.WHITE)
 
 func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
@@ -84,8 +91,11 @@ func _check_for_winners() -> void:
 
 func _set_winner(winner: Globals.CellType) -> void:
 	turn_state = TurnState.WINNER
-	print("winner: ", winner)
-
+	canvas_layer.show()
+	winner_label.text = str(Globals.CellType.keys()[Globals.CellType.values().find(winner)]) + " won the game!"
+	
+func _on_restart_pressed() -> void:
+	board.clear_cells()
 
 @rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
