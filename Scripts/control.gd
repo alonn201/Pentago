@@ -34,3 +34,6 @@ func _on_connection_failed(reason) -> void:
 	error_msg.text = str(reason)
 	await get_tree().create_timer(1.5).timeout
 	error_msg.text = ""
+
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
