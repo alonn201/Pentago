@@ -11,38 +11,16 @@ signal island_turn_direction(island_index: int, direction: Globals.TurnDirection
 var x := 0
 
 func _ready() -> void:
-	for i in islands.size():
-		var island: Island = islands[i]
+	for island_index in islands.size():
+		var island: Island = islands[island_index]
 		island.cell_clicked.connect(func(cell_index: int):
-			_handle_island_cell_clicked(i, cell_index)
+			emit_signal("cell_click", island_index, cell_index)
 		)
 		
 		island.turn_direction.connect(
 			func(direction: Globals.TurnDirection):
-				_handle_island_turn_direction(i, direction)
+				emit_signal("island_turn_direction", island_index, direction)
 		)
-
-func _handle_island_cell_clicked(island_index: int, cell_index: int) -> void:
-	emit_signal("cell_click", island_index, cell_index)
-	return
-	var island: Island = islands[island_index]
-	var cell: Cell = island.cells[cell_index]
-	if cell.type != Globals.CellType.EMPTY:
-		cell.type = Globals.CellType.EMPTY
-	else:
-		cell.type = [Globals.CellType.WHITE, Globals.CellType.BLACK][x]
-		x = (x + 1) % 2
-	#print("island_index=", island_index, "\tcell_index=", cell_index)
-	
-	print(get_state())
-	print(check_for_winners())
-	
-func _handle_island_turn_direction(island_index: int, direction: Globals.TurnDirection) -> void:
-	emit_signal("island_turn_direction", island_index, direction)
-	return
-	var island: Island = islands[island_index]
-	island.turn(direction)
-	#print("island_index=", island_index, "\tdirection=", direction)
 
 func _check_cells_streak(cell_types: Array) -> Globals.CellType:
 	var count := 0

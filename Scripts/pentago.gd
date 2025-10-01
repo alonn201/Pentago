@@ -3,7 +3,7 @@ class_name Pentago
 
 const Globals = preload("res://Scripts/globals.gd")
 
-enum TurnState { OTHER, CELLS, TURN }
+enum TurnState { OTHER, CELLS, TURN, WINNER }
 
 @onready var board = $Board
 @onready var cell_turn: Cell = $CellTurn
@@ -21,6 +21,9 @@ func _ready() -> void:
 func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
 	cell_turn.type = player_turn
+	
+	if (is_multiplayer_authority()):
+		_check_for_winners()
 
 func _set_player_turn(turn: Globals.CellType) -> void:
 	_update_player_turn(turn)
@@ -70,7 +73,18 @@ func _turn_island(island_index: int, direction: Globals.TurnDirection) -> void:
 	var island: Island = board.islands[island_index]
 	island.turn(direction)
 	rpc("rpc_sync_island_turn", island_index, direction)
-	print("turning island", "island_index=", island_index, "\t", "direction=", direction)
+	print("turning island ", "island_index=", island_index, "\t", "direction=", direction)
+
+func _check_for_winners() -> void:
+	var winner = board.check_for_winners()
+	if (winner == Globals.CellType.EMPTY):
+		return
+	_set_winner(winner)
+	rpc("rpc_sync_winner", winner)
+
+func _set_winner(winner: Globals.CellType) -> void:
+	turn_state = TurnState.WINNER
+	print("winner: ", winner)
 
 
 @rpc("any_peer")
@@ -89,3 +103,7 @@ func rpc_sync_island_turn(island_index: int, direction: Globals.TurnDirection) -
 	var island: Island = board.islands[island_index]
 	island.turn(direction)
 	print("turning island", "island_index=", island_index, "\t", "direction=", direction)
+
+@rpc("any_peer")
+func rpc_sync_winner(winner: Globals.CellType) -> void:
+	_set_winner(winner)
