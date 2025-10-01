@@ -103,8 +103,10 @@ func _set_winner(winner: Globals.CellType, by_disconnect: bool = false) -> void:
 	turn_state = TurnState.WINNER
 	canvas_layer.show()
 	winner_label.text = str(Globals.CellType.keys()[winner]) + " won the game!"
-	if (by_disconnect and turn_state != TurnState.WINNER):
-		winner_label.text = "Player disconnected\r\n" + winner_label.text
+	if (by_disconnect):
+		Network.close()
+		if (turn_state != TurnState.WINNER):
+			winner_label.text = "Player disconnected\r\n" + winner_label.text
 
 func _restart() -> void:
 	get_tree().reload_current_scene()
