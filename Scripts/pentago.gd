@@ -27,6 +27,8 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		_handle_player_turn_assignment()
 		
+	get_tree().get_multiplayer().peer_disconnected.connect(_handle_disconnect)
+	
 func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
 	cell_turn.type = player_turn
@@ -91,10 +93,12 @@ func _check_for_winners() -> void:
 	_set_winner(winner)
 	rpc("rpc_sync_winner", winner)
 
-func _set_winner(winner: Globals.CellType) -> void:
+func _set_winner(winner: Globals.CellType, by_disconnect: bool = false) -> void:
 	turn_state = TurnState.WINNER
 	canvas_layer.show()
 	winner_label.text = str(Globals.CellType.keys()[Globals.CellType.values().find(winner)]) + " won the game!"
+	if (by_disconnect):
+		winner_label.text = "Player disconnected\r\n" + winner_label.text
 
 func _restart() -> void:
 	get_tree().reload_current_scene()
@@ -102,6 +106,11 @@ func _restart() -> void:
 func _on_restart_button_pressed() -> void:
 	rpc("rpc_sync_restart")
 	_restart()
+	
+func _handle_disconnect(id: int) -> void:
+	restart_button.hide()
+	_set_winner([Globals.CellType.BLACK, Globals.CellType.WHITE][int(is_multiplayer_authority())], true)
+	print("disconnected ID=", id)
 
 @rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
