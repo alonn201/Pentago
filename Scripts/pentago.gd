@@ -16,16 +16,19 @@ enum TurnState { OTHER, CELLS, TURN, WINNER }
 var player_turn := Globals.CellType.EMPTY
 var turn_state := TurnState.CELLS
 
+var this_cell_type := Globals.CellType.EMPTY
+var other_cell_type := Globals.CellType.EMPTY
+
 func _ready() -> void:
 	board.cell_click.connect(_handle_cell_click)
 	board.island_turn_direction.connect(_handle_island_turn)
 	
 	canvas_layer.hide()
-	if (not is_multiplayer_authority()):
-		restart_button.hide()
 	
 	if is_multiplayer_authority():
 		_handle_player_turn_assignment()
+	else:
+		restart_button.hide()
 		
 	get_tree().get_multiplayer().peer_disconnected.connect(_handle_disconnect)
 	
@@ -33,20 +36,27 @@ func _update_player_turn(turn: Globals.CellType) -> void:
 	player_turn = turn
 	cell_turn.type = player_turn
 	
+	# only master checks game state for winners
 	if (is_multiplayer_authority()):
 		_check_for_winners()
 
 func _set_player_turn(turn: Globals.CellType) -> void:
 	_update_player_turn(turn)
 	rpc("rpc_sync_player_turn", player_turn)
-	print("setting player turn: ", Globals.CellType.keys()[Globals.CellType.values().find(player_turn)])
+	print("setting player turn: ", Globals.CellType.keys()[player_turn])
 
 func _handle_player_turn_assignment() -> void:
+	var random_cell_type = (randi() % 2) + 1
+	this_cell_type = Globals.CellType.values()[random_cell_type]
+	other_cell_type = Globals.CellType.values()[3 - random_cell_type]
+	
+	rpc("rpc_sync_player_cell_type", other_cell_type)
 	_set_player_turn(Globals.CellType.WHITE)
 	
 func is_player_turn() -> bool:
-	return (is_multiplayer_authority() and player_turn == Globals.CellType.WHITE) \
-	or (not is_multiplayer_authority() and player_turn == Globals.CellType.BLACK)
+	return player_turn == this_cell_type
+	#return (is_multiplayer_authority() and player_turn == Globals.CellType.WHITE) \
+	#or (not is_multiplayer_authority() and player_turn == Globals.CellType.BLACK)
 
 func _handle_cell_click(island_index: int, cell_index: int) -> void:
 	if (not is_player_turn() or turn_state != TurnState.CELLS):
@@ -58,10 +68,7 @@ func _handle_cell_click(island_index: int, cell_index: int) -> void:
 	if (clicked_cell.type != Globals.CellType.EMPTY):
 		return
 	
-	var turns = [Globals.CellType.BLACK, Globals.CellType.WHITE]
-	var current_turn_color = int(is_multiplayer_authority())
-	var placed_type = turns[current_turn_color]
-	_set_cell(island_index, cell_index, placed_type)
+	_set_cell(island_index, cell_index, this_cell_type)
 	turn_state = TurnState.TURN
 
 func _set_cell(island_index: int, cell_index: int, cell_type: Globals.CellType) -> void:
@@ -75,10 +82,7 @@ func _handle_island_turn(island_index: int, direction: Globals.TurnDirection) ->
 
 	_turn_island(island_index, direction)
 	turn_state = TurnState.OTHER
-	
-	var turns = [Globals.CellType.BLACK, Globals.CellType.WHITE]
-	var next_turn = turns[(int(is_multiplayer_authority()) + 1) % 2]
-	_set_player_turn(next_turn)
+	_set_player_turn(other_cell_type)
 
 func _turn_island(island_index: int, direction: Globals.TurnDirection) -> void:
 	var island: Island = board.islands[island_index]
@@ -96,7 +100,7 @@ func _check_for_winners() -> void:
 func _set_winner(winner: Globals.CellType, by_disconnect: bool = false) -> void:
 	turn_state = TurnState.WINNER
 	canvas_layer.show()
-	winner_label.text = str(Globals.CellType.keys()[Globals.CellType.values().find(winner)]) + " won the game!"
+	winner_label.text = str(Globals.CellType.keys()[winner]) + " won the game!"
 	if (by_disconnect):
 		winner_label.text = "Player disconnected\r\n" + winner_label.text
 
@@ -109,7 +113,7 @@ func _on_restart_button_pressed() -> void:
 	
 func _handle_disconnect(id: int) -> void:
 	restart_button.hide()
-	_set_winner([Globals.CellType.BLACK, Globals.CellType.WHITE][int(is_multiplayer_authority())], true)
+	_set_winner(this_cell_type, true)
 	print("disconnected ID=", id)
 
 func _on_exit_button_pressed() -> void:
@@ -120,9 +124,14 @@ func _on_back_button_pressed() -> void:
 	Network.close()
 
 @rpc("any_peer")
+func rpc_sync_player_cell_type(cell_type: Globals.CellType) -> void:
+	this_cell_type = cell_type
+	other_cell_type = Globals.CellType.values()[3 - cell_type]
+
+@rpc("any_peer")
 func rpc_sync_player_turn(turn: Globals.CellType) -> void:
 	_update_player_turn(turn)
-	print("setting player turn: ", Globals.CellType.keys()[Globals.CellType.values().find(player_turn)])
+	print("setting player turn: ", Globals.CellType.keys()[player_turn])
 
 @rpc("any_peer")
 func rpc_sync_cell(island_index: int, cell_index: int, cell_type: Globals.CellType) -> void:
