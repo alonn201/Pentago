@@ -23,6 +23,3 @@ Network="*res://Scripts/network.gd"
 
 window/size/viewport_width=800
 window/size/viewport_height=800
-window/size/borderless=true
-window/stretch/mode="viewport"
-window/stretch/aspect="expand"
