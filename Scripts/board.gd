@@ -92,3 +92,7 @@ func check_for_winners() -> Globals.CellType:
 	
 	return Globals.CellType.EMPTY
 	
+func clear_cells() -> void:
+	for island in islands:
+		for cell in island.cells:
+			cell.type = Globals.CellType.EMPTY
