@@ -10,46 +10,46 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("1_30k4x")
 metadata/_edit_lock_ = true
 
-[node name="Island" type="Sprite2D" parent="."]
+[node name="Body" type="Sprite2D" parent="."]
 texture = ExtResource("1_e7j4b")
 metadata/_edit_lock_ = true
 
-[node name="Cells" type="Node2D" parent="."]
+[node name="Cells" type="Node2D" parent="Body"]
 metadata/_edit_lock_ = true
 
-[node name="0" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="0" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(-107.00001, -107)
 scale = Vector2(0.9528302, 1)
 
-[node name="1" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="1" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(4, -107)
 scale = Vector2(0.9528302, 1)
 
-[node name="2" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="2" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, -106)
 scale = Vector2(0.9528302, 1)
 
-[node name="3" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="3" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(-107.00001, 2)
 scale = Vector2(0.9528302, 1)
 
-[node name="4" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="4" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(4, 2)
 scale = Vector2(0.9528302, 1)
 
-[node name="5" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="5" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, 3)
 scale = Vector2(0.9528302, 1)
 
-[node name="6" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="6" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(-107.00001, 108)
 scale = Vector2(0.9528302, 1)
 
-[node name="7" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="7" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(4, 108)
 scale = Vector2(0.9528302, 1)
 
-[node name="8" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="8" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, 109)
 scale = Vector2(0.9528302, 1)
 

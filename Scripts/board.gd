@@ -8,8 +8,6 @@ signal island_turn_direction(island_index: int, direction: Globals.TurnDirection
 
 @onready var islands = $Islands.get_children()
 
-var x := 0
-
 func _ready() -> void:
 	for island_index in islands.size():
 		var island: Island = islands[island_index]
@@ -38,14 +36,13 @@ func _check_cells_streak(cell_types: Array) -> Globals.CellType:
 			count = 1
 		previous_cell_type = cell_type
 		
-	
 	return Globals.CellType.EMPTY
 
 func get_state() -> Array:
-	var top_left_cells: Array = islands[0].cells_type
-	var top_right_cells: Array = islands[1].cells_type
-	var bottom_left_cells: Array = islands[2].cells_type
-	var bottom_right_cells: Array = islands[3].cells_type
+	var top_left_cells: Array = islands[0].normalized_cells_type_flat
+	var top_right_cells: Array = islands[1].normalized_cells_type_flat
+	var bottom_left_cells: Array = islands[2].normalized_cells_type_flat
+	var bottom_right_cells: Array = islands[3].normalized_cells_type_flat
 
 	return [
 		top_left_cells.slice(0, 3) + top_right_cells.slice(0, 3),
@@ -91,8 +88,3 @@ func check_for_winners() -> Globals.CellType:
 		return winner_type
 	
 	return Globals.CellType.EMPTY
-	
-func clear_cells() -> void:
-	for island in islands:
-		for cell in island.cells:
-			cell.type = Globals.CellType.EMPTY
