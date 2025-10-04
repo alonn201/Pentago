@@ -113,7 +113,6 @@ func _restart() -> void:
 
 func _on_restart_button_pressed() -> void:
 	rpc("rpc_sync_restart")
-	_restart()
 	
 func _handle_disconnect(id: int) -> void:
 	restart_button.hide()
@@ -153,6 +152,6 @@ func rpc_sync_island_turn(island_index: int, direction: Globals.TurnDirection) -
 func rpc_sync_winner(winner: Globals.CellType) -> void:
 	_set_winner(winner)
 	
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func rpc_sync_restart() -> void:
 	_restart()

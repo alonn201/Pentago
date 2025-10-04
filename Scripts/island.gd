@@ -11,6 +11,7 @@ signal turn_direction(direction: Globals.TurnDirection)
 @export var show_bottom_left: bool = false
 @export var show_bottom_right: bool = false
 
+@onready var turn_sound: AudioStreamPlayer2D = $TurnSound
 @onready var cells = $Cells.get_children()
 
 var cells_type: Array:
@@ -50,6 +51,10 @@ func turn(direction: Globals.TurnDirection) -> void:
 	
 	for i in cells.size():
 		cells[i].type = turned_types[i]
+		
+	turn_sound.play(0.20)
+	await get_tree().create_timer(0.35).timeout
+	turn_sound.stop() 
 
 func _turn_array(arr: Array, direction: Globals.TurnDirection) -> Array:
 	var n = arr.size()

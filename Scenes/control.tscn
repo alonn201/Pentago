@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4bx60rwapsiu"]
+[gd_scene load_steps=3 format=3 uid="uid://b4bx60rwapsiu"]
 
 [ext_resource type="Script" uid="uid://cw0g3rg8ji871" path="res://Scripts/control.gd" id="1_5p55f"]
+[ext_resource type="PackedScene" uid="uid://dibf6f8vcsk5h" path="res://Scenes/mute.tscn" id="2_cgmvo"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -36,6 +37,8 @@ theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
 theme_override_font_sizes/font_size = 30
 text = "Main Menu"
 horizontal_alignment = 1
@@ -67,6 +70,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Mute" parent="." instance=ExtResource("2_cgmvo")]
+layout_mode = 1
+offset_left = 560.0
+offset_top = 265.0
+offset_right = -189.0
+offset_bottom = -503.0
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
