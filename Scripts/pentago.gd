@@ -65,21 +65,21 @@ func _handle_island_turn(island_index: int, direction: Globals.TurnDirection) ->
 	rpc("rpc_sync_island_turn", island_index, direction)
 	rpc("rpc_sync_player_turn", other_cell_type)
 
-func _set_winner(winner: Globals.CellType, by_disconnect: bool = false) -> void:
+func _set_winner(winner: Globals.CellType) -> void:
+	if (turn_state == TurnState.WINNER):
+		return
+	
 	turn_state = TurnState.WINNER
 	canvas_layer.show()
 	winner_label.text = str(Globals.CellType.keys()[winner]) + " won the game!"
-	if (by_disconnect):
-		Network.close()
-		if (turn_state != TurnState.WINNER):
-			winner_label.text = "Player disconnected\r\n" + winner_label.text
 
 func _on_restart_button_pressed() -> void:
 	rpc("rpc_sync_restart")
 	
 func _handle_disconnect(id: int) -> void:
+	Network.close()
 	restart_button.hide()
-	_set_winner(this_cell_type, true)
+	_set_winner(this_cell_type)
 	print("disconnected ID=", id)
 
 func _on_exit_button_pressed() -> void:
@@ -116,7 +116,7 @@ func rpc_sync_player_turn(turn: Globals.CellType) -> void:
 @rpc("any_peer", "call_local")
 func rpc_sync_cell(island_index: int, cell_index: int, cell_type: Globals.CellType) -> void:
 	board.islands[island_index].cells[cell_index].type = cell_type
-	print("setting cell", "island_index=", island_index, "\t", "cell_index=", cell_index, "\t", "cell_type=", cell_type)
+	print("setting cell", "\t", "island_index=", island_index, "\t", "cell_index=", cell_index, "\t", "cell_type=", cell_type)
 
 @rpc("any_peer", "call_local")
 func rpc_sync_island_turn(island_index: int, direction: Globals.TurnDirection) -> void:
