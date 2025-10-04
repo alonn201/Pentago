@@ -16,6 +16,7 @@ signal turn_direction(direction: Globals.TurnDirection)
 
 @onready var body = $Body
 @onready var cells = $Body/Cells.get_children()
+@onready var turn_sound: AudioStreamPlayer2D = $TurnSound
 
 var tween: Tween = null
 
@@ -78,6 +79,10 @@ func turn(direction: Globals.TurnDirection) -> void:
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(body, "rotation_degrees", target_rotation, TURN_ANIMATION_DURATION).set_trans(Tween.TRANS_QUAD)
+	
+	turn_sound.play(0.2)
+	await get_tree().create_timer(1.5).timeout
+	turn_sound.stop()
 
 func rotate_90_clockwise(arr: Array) -> Array:
 	return [
