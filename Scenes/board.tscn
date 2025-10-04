@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bx1pgshqxdy56"]
 
-[ext_resource type="Texture2D" uid="uid://emyv7q0j405u" path="res://Assets/Sprites/background.png" id="1_tnbny"]
+[ext_resource type="Texture2D" uid="uid://emyv7q0j405u" path="res://Assets/Sprites/Game/background.png" id="1_tnbny"]
 [ext_resource type="Script" uid="uid://cenoa85mvmguk" path="res://Scripts/board.gd" id="1_uh3b8"]
 [ext_resource type="PackedScene" uid="uid://c3milmb5jlp7n" path="res://Scenes/island.tscn" id="2_2wvcj"]
 

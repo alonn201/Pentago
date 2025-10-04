@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4bx60rwapsiu"]
 
 [ext_resource type="Script" uid="uid://cw0g3rg8ji871" path="res://Scripts/control.gd" id="1_5p55f"]
-[ext_resource type="PackedScene" uid="uid://dibf6f8vcsk5h" path="res://Scenes/mute.tscn" id="2_cgmvo"]
+[ext_resource type="PackedScene" uid="uid://c17ws1t14xq1d" path="res://Scenes/mute_button.tscn" id="3_vh8u0"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -71,12 +71,12 @@ theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Mute" parent="." instance=ExtResource("2_cgmvo")]
-layout_mode = 1
-offset_left = 560.0
-offset_top = 265.0
-offset_right = -189.0
-offset_bottom = -503.0
+[node name="MuteButton" parent="." instance=ExtResource("3_vh8u0")]
+layout_mode = 0
+offset_left = 197.99998
+offset_top = 250.99998
+offset_right = 710.0
+offset_bottom = 763.0
 
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

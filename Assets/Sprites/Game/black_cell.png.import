@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://emyv7q0j405u"
-path="res://.godot/imported/background.png-07bf9a98f54331c7fb76b682c154dcc9.ctex"
+uid="uid://cs3521o13qicg"
+path="res://.godot/imported/black_cell.png-e60938ed3feeebcfb198cfdb3d925f9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/background.png"
-dest_files=["res://.godot/imported/background.png-07bf9a98f54331c7fb76b682c154dcc9.ctex"]
+source_file="res://Assets/Sprites/Game/black_cell.png"
+dest_files=["res://.godot/imported/black_cell.png-e60938ed3feeebcfb198cfdb3d925f9c.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dia2kwj8i3qny"
-path="res://.godot/imported/turn_arrow.png-399cd8f3fcf7bcac05b8637639970fe6.ctex"
+uid="uid://cljvly28xop5l"
+path="res://.godot/imported/white_cell.png-80a531c4487887862dedc8030d6e379e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/turn_arrow.png"
-dest_files=["res://.godot/imported/turn_arrow.png-399cd8f3fcf7bcac05b8637639970fe6.ctex"]
+source_file="res://Assets/Sprites/Game/white_cell.png"
+dest_files=["res://.godot/imported/white_cell.png-80a531c4487887862dedc8030d6e379e.ctex"]
 
 [params]
 

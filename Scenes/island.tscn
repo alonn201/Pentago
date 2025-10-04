@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c3milmb5jlp7n"]
 
 [ext_resource type="Script" uid="uid://bqug7uii5jg1j" path="res://Scripts/island.gd" id="1_30k4x"]
-[ext_resource type="Texture2D" uid="uid://c205qsuosycyu" path="res://Assets/Sprites/island.png" id="1_e7j4b"]
+[ext_resource type="Texture2D" uid="uid://c205qsuosycyu" path="res://Assets/Sprites/Game/island.png" id="1_e7j4b"]
 [ext_resource type="PackedScene" uid="uid://drq7rj0sy6v35" path="res://Scenes/cell.tscn" id="2_m582m"]
 [ext_resource type="PackedScene" uid="uid://duayxdia7vtxy" path="res://Scenes/turn_direction.tscn" id="3_81x60"]
 [ext_resource type="AudioStream" uid="uid://d4lrgxr2vtidx" path="res://Assets/SFX/swooshsound_effect.wav" id="5_dschw"]

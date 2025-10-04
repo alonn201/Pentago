@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c205qsuosycyu"
-path="res://.godot/imported/island.png-269635e7597fc08d2355044a4cd9e258.ctex"
+uid="uid://bfuhoxrimfdad"
+path="res://.godot/imported/empty_cell.png-3e4c6daf5719c0c24328e75b911bba13.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/island.png"
-dest_files=["res://.godot/imported/island.png-269635e7597fc08d2355044a4cd9e258.ctex"]
+source_file="res://Assets/Sprites/Game/empty_cell.png"
+dest_files=["res://.godot/imported/empty_cell.png-3e4c6daf5719c0c24328e75b911bba13.ctex"]
 
 [params]
 
