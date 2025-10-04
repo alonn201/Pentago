@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://s2x0qourc7qg"]
+
+[ext_resource type="AudioStream" uid="uid://c6gree1j7ac80" path="res://Assets/Music/8 bit music.mp3" id="1_fbmny"]
+[ext_resource type="Script" uid="uid://cq7t8klgobho" path="res://Scripts/music.gd" id="2_qxpp0"]
+
+[node name="Music" type="AudioStreamPlayer"]
+stream = ExtResource("1_fbmny")
+autoplay = true
+bus = &"Music"
+script = ExtResource("2_qxpp0")
