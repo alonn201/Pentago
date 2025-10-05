@@ -7,15 +7,16 @@ extends Control
 func _ready() -> void:
 	Network.connected.connect(_on_network_connected)
 	Network.connection_failed.connect(_on_connection_failed)
+	Network.upnp_failed.connect(_on_upnp_failed)
 
 func _on_host_button_pressed() -> void:
-	var ok := Network.start_server()
-	if not ok:
+	if not Network.start_server():
 		error_msg.text = "Failed to host"
 		await get_tree().create_timer(1.0).timeout
 		error_msg.text = ""
 	
-	get_tree().change_scene_to_file("res://Scenes/waiting_screen.tscn")
+	else:
+		get_tree().change_scene_to_file("res://Scenes/waiting_screen.tscn")
 
 func _on_join_button_pressed() -> void:
 	var host := address_entry.text.strip_edges()
@@ -34,3 +35,11 @@ func _on_connection_failed(reason) -> void:
 	error_msg.text = str(reason)
 	await get_tree().create_timer(1.5).timeout
 	error_msg.text = ""
+
+func _on_upnp_failed(reason) -> void:
+	error_msg.text = str(reason)
+	await get_tree().create_timer(1.5).timeout
+	error_msg.text = ""
+
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()

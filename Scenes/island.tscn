@@ -1,55 +1,56 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3milmb5jlp7n"]
+[gd_scene load_steps=6 format=3 uid="uid://c3milmb5jlp7n"]
 
 [ext_resource type="Script" uid="uid://bqug7uii5jg1j" path="res://Scripts/island.gd" id="1_30k4x"]
-[ext_resource type="Texture2D" uid="uid://c205qsuosycyu" path="res://Assets/Sprites/island.png" id="1_e7j4b"]
+[ext_resource type="Texture2D" uid="uid://c205qsuosycyu" path="res://Assets/Sprites/Game/island.png" id="1_e7j4b"]
 [ext_resource type="PackedScene" uid="uid://drq7rj0sy6v35" path="res://Scenes/cell.tscn" id="2_m582m"]
 [ext_resource type="PackedScene" uid="uid://duayxdia7vtxy" path="res://Scenes/turn_direction.tscn" id="3_81x60"]
+[ext_resource type="AudioStream" uid="uid://d4lrgxr2vtidx" path="res://Assets/SFX/swooshsound_effect.wav" id="5_dschw"]
 
 [node name="Island" type="Node2D"]
 scale = Vector2(0.75, 0.75)
 script = ExtResource("1_30k4x")
 metadata/_edit_lock_ = true
 
-[node name="Island" type="Sprite2D" parent="."]
+[node name="Body" type="Sprite2D" parent="."]
 texture = ExtResource("1_e7j4b")
 metadata/_edit_lock_ = true
 
-[node name="Cells" type="Node2D" parent="."]
+[node name="Cells" type="Node2D" parent="Body"]
 metadata/_edit_lock_ = true
 
-[node name="0" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="0" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(-107.00001, -107)
 scale = Vector2(0.9528302, 1)
 
-[node name="1" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="1" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(4, -107)
 scale = Vector2(0.9528302, 1)
 
-[node name="2" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="2" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, -106)
 scale = Vector2(0.9528302, 1)
 
-[node name="3" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="3" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(-107.00001, 2)
 scale = Vector2(0.9528302, 1)
 
-[node name="4" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="4" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(4, 2)
 scale = Vector2(0.9528302, 1)
 
-[node name="5" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="5" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, 3)
 scale = Vector2(0.9528302, 1)
 
-[node name="6" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="6" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(-107.00001, 108)
 scale = Vector2(0.9528302, 1)
 
-[node name="7" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="7" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(4, 108)
 scale = Vector2(0.9528302, 1)
 
-[node name="8" parent="Cells" instance=ExtResource("2_m582m")]
+[node name="8" parent="Body/Cells" instance=ExtResource("2_m582m")]
 position = Vector2(112.00001, 109)
 scale = Vector2(0.9528302, 1)
 
@@ -73,3 +74,7 @@ rotation = 3.1415927
 visible = false
 position = Vector2(-197.33333, 189.33334)
 rotation = 4.712389
+
+[node name="TurnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_dschw")
+bus = &"SFX"

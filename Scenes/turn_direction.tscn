@@ -4,12 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://c0kr5cgox4bdn" path="res://Scenes/turn_arrow.tscn" id="1_w417l"]
 
 [node name="TurnDirection" type="Node2D"]
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_kffai")
 
 [node name="CounterClockWiseArrow" parent="." instance=ExtResource("1_w417l")]
-position = Vector2(-14, 20)
+position = Vector2(-16.666666, 20)
 rotation = 1.5707964
 scale = Vector2(1, -1)
 
 [node name="ClockWiseArrow" parent="." instance=ExtResource("1_w417l")]
-position = Vector2(19, -13)
+position = Vector2(20, -16.666666)

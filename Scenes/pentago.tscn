@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ceou3yg24ycvq"]
+[gd_scene load_steps=5 format=3 uid="uid://ceou3yg24ycvq"]
 
 [ext_resource type="Script" uid="uid://dmi4nor4jnpmv" path="res://Scripts/pentago.gd" id="1_fqlbw"]
 [ext_resource type="PackedScene" uid="uid://bx1pgshqxdy56" path="res://Scenes/board.tscn" id="1_roxdv"]
 [ext_resource type="PackedScene" uid="uid://drq7rj0sy6v35" path="res://Scenes/cell.tscn" id="3_bdu22"]
+[ext_resource type="PackedScene" uid="uid://c17ws1t14xq1d" path="res://Scenes/mute_button.tscn" id="4_hd2qp"]
 
 [node name="Pentago" type="Node2D"]
 script = ExtResource("1_fqlbw")
@@ -66,6 +67,12 @@ text = "BACK"
 [node name="ExitButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "EXIT"
+
+[node name="MuteButton" parent="." instance=ExtResource("4_hd2qp")]
+offset_left = 746.0
+offset_top = 2.9999998
+offset_right = 1258.0
+offset_bottom = 515.0
 
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

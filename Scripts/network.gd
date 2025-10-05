@@ -30,6 +30,7 @@ func start_server(port: int = PORT) -> bool:
 	return true
 
 func start_client(host: String, port: int = PORT) -> bool:
+	enet_peer = ENetMultiplayerPeer.new()
 	var res := enet_peer.create_client(host, port)
 	if res != OK:
 		emit_signal("connection_failed", "create_client failed: %s" % res)
